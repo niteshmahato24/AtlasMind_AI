@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Trip Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #dc3545;
+        }
+        h1 {
+            color: #dc3545;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap; /* Preserve formatting for traceback/details */
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>❌ Trip Planning Failed</h1>
+        <p>We encountered a serious problem while trying to generate your trip plan. This usually indicates an issue with the underlying AI services or structured data.</p>
+        
+        <h2>Error Details</h2>
+        <div class="error-message">
+            <strong>{{ message }}</strong>
+        </div>
+
+        <p>Please try adjusting your trip details (e.g., destination, dates) and try again.</p>
+        
+        <a href="/" class="back-link">Return to Planner</a>
+    </div>
+</body>
+</html>

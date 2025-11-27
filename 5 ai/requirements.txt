@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+pydantic
+requests
+Jinja2
+google-genai

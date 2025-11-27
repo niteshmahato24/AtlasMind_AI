@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Plan Result: {{ request_data.destination }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f7f9; /* Light background */
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 4px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 35px;
+            border-left: 5px solid #28a745; /* Green accent */
+            padding-left: 10px;
+            background-color: #ecf0f1;
+            padding: 10px 10px 10px 15px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .section-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        .itinerary-day {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+        .activity-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .activity-list li {
+            border-bottom: 1px dashed #eee;
+            padding: 8px 0;
+        }
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .budget-table th, .budget-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .budget-table th {
+            background-color: #f2f2f2;
+            color: #555;
+        }
+        .alert {
+            padding: 15px;
+            background-color: #ffe5cc;
+            color: #cc6600;
+            border-left: 5px solid #ff9900;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>✈️ Your Trip to {{ request_data.destination }}</h1>
+    <p>A multi-agent masterpiece generated for **{{ request_data.destination }}** for **{{ request_data.duration_days }} days** starting **{{ request_data.travel_dates }}**.</p>
+    
+    <h2>✨ Trip Summary & Mood</h2>
+    <div class="section-box">
+        <p><strong>Overall Theme:</strong> {{ travel_summary.mood }}</p>
+        <p>{{ travel_summary.summary }}</p>
+    </div>
+
+    <h2>☀️ Weather and Packing Advice</h2>
+    <div class="section-box">
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1;">
+                <h3>Weather Forecast</h3>
+                <p><strong>Temperature:</strong> {{ weather.temperature_range }}</p>
+                <p><strong>Conditions:</strong> {{ weather.conditions }}</p>
+                <p><strong>Clothing Advice:</strong> {{ weather.clothing_advice }}</p>
+            </div>
+            <div style="flex: 1;">
+                <h3>Packing List 🎒</h3>
+                <p class="alert">{{ packing_list.notes }}</p>
+                
+                <h4>Essentials</h4>
+                <ul>
+                {% for item in packing_list.essentials %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ul>
+
+                <h4>Clothing</h4>
+                <ul>
+                {% for item in packing_list.clothing %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <h2>💰 Budget Estimate ({{ request_data.budget_level }})</h2>
+    <div class="section-box">
+        <p>Estimated Average Daily Cost: **${{ budget.daily_cost_usd | round(2) }} USD**</p>
+        <p class="alert">Budget Warning: {{ budget.warning }}</p>
+        
+        <h3>Detailed Breakdown</h3>
+        <table class="budget-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Estimate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# Accessing keys dynamically from the details dictionary #}
+                {% for category, estimate in budget.details.items() %}
+                <tr>
+                    <td>{{ category }}</td>
+                    <td>{{ estimate }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>🗓️ Day-by-Day Itinerary</h2>
+    
+    {% for day in itinerary %}
+    <div class="itinerary-day">
+        <h3>Day {{ day.day_number }}: {{ day.summary }}</h3>
+        
+        <ul class="activity-list">
+        {% for activity in day.activities %}
+            <li>
+                <strong>{{ activity.time_period }}: {{ activity.name }}</strong> 
+                <p style="margin: 5px 0 0 10px; font-size: 0.95em;">
+                    Details: {{ activity.details }}<br>
+                    <span style="color: #6c757d;">Travel: {{ activity.transport_tip }}</span>
+                </p>
+            </li>
+        {% endfor %}
+        </ul>
+        
+        <p style="font-style: italic; margin-top: 10px;">🍽️ **Meal Suggestion:** {{ day.meal_recommendation }}</p>
+    </div>
+    {% endfor %}
+    
+    <hr>
+    <p style="text-align: center; margin-top: 30px; color: #777;">Plan generated by AtlasMind AI Orchestrator.</p>
+
+</body>
+</html>
